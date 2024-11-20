@@ -1,70 +1,57 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const dotenv = require('dotenv');
-const mongoose = require('mongoose')
-const cors = require('cors')
+const mongoose = require('mongoose');
+const cors = require('cors');
 
+// Load environment variables
 dotenv.config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const artistRouter = require('./routes/artist');
 const artworkRouter = require('./routes/artwork');
-var app = express();
+
+const app = express();
+
+// Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error(err));
+  .catch((err) => console.error('MongoDB connection error:', err));
 
+// Middleware for CORS (allow requests from frontend)
+app.use(cors({
+  origin: 'http://localhost:5173', // React frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true, // Allow credentials
+}));
 
-
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  res.status(500).json({ error: err.message });
-});
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
+// Logging and body parsers
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.options('*', cors()); // Allow preflight requests for all routes
-
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
+// API routes
 app.use('/api/artist', artistRouter);
 app.use('/api/artwork', artworkRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+// Catch 404 and forward to error handler
+app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err); // Log the error
+  res.status(err.status || 500).json({
+    error: err.message,
+  });
 });
-
-
-
 
 module.exports = app;
