@@ -1,14 +1,15 @@
 import React from 'react'
+import cover from '../assets/About.jpeg'
 
 const About = () => {
   return (
     <>
     <section className="bg-white text-center py-16 px-4 md:px-12 lg:px-20" id='about'>
-      <div className="flex flex-col lg:flex-row items-center bg-[#0f293e] text-white rounded-lg overflow-hidden shadow-md">
+      <div className="flex flex-col lg:flex-row items-center bg-[#0f293e] text-white rounded-xl overflow-hidden shadow-md">
         {/* Image Section */}
         <div className="w-full lg:w-1/2">
           <img
-            src="https://via.placeholder.com/600x500?text=Curated+Art"
+            src={cover}
             alt="Curated Art"
             className="w-full h-full object-cover"
           />

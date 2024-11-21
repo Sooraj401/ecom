@@ -1,4 +1,8 @@
 import React from 'react';
+import artist1 from '../assets/artist1.jpg'
+import artist2 from '../assets/artist2.jpg'
+import artist3 from '../assets/artist3.jpg'
+import artist4 from '../assets/artist4.jpg'
 
 const ShopbyArtist = () => {
   // Sample data for the collections
@@ -6,22 +10,22 @@ const ShopbyArtist = () => {
     {
       id: 1,
       title: "Rachel Crummey",
-      image: "https://via.placeholder.com/400x500?text=Collection+1",
+      image: artist1,
     },
     {
       id: 2,
       title: "Leia Bryans",
-      image: "https://via.placeholder.com/400x500?text=Collection+2",
+      image: artist2,
     },
     {
       id: 3,
       title: "Melanie Katy",
-      image: "https://via.placeholder.com/400x500?text=Collection+3",
+      image: artist3,
     },
     {
       id: 4,
       title: "Sol Hicks",
-      image: "https://via.placeholder.com/400x500?text=Collection+4",
+      image: artist4,
     },
   ];
 

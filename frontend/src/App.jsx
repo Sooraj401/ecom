@@ -92,10 +92,10 @@ import Cart from './Pages/Cart';
 import ArtistDash from './Pages/ArtistDash';
 import ProtectedRoute from './components/ProtectedRoute';
 
-const handleLogout = () => {
-  localStorage.removeItem('jwt'); // Clear the token
-  navigate('/login'); // Redirect to login
-};
+// const handleLogout = () => {
+//   localStorage.removeItem('jwt'); // Clear the token
+//   navigate('/login'); // Redirect to login
+// };
 
 
 const App = () => {

@@ -25,7 +25,7 @@ router.post('/login', async (req, res) => {
         if (!artist || !(await artist.comparePassword(password))) {
             throw new Error('Invalid email or password');
         }
-        const token = jwt.sign({ id: artist._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: artist._id }, process.env.JWT_SECRET, { expiresIn: '900s' });
         res.json({ token });
     } catch (err) {
         res.status(400).json({ error: err.message });

@@ -6,16 +6,16 @@ const upload = require('../middlewares/upload');
 const router = express.Router();
 
 // Create Artwork
-router.post('/', authenticate, upload.array('images', 10), async (req, res) => {
+router.post('/add', authenticate, upload.array('images', 10), async (req, res) => {
     try {
-        const { title, description } = req.body;
+        const { title, description, price, artist} = req.body;
         const imagePaths = req.files.map(file => `/uploads/${file.filename}`);
-
         const artwork = new Artwork({
             title,
             description,
             images: imagePaths,
-            artist: req.artist._id,
+            price,
+            artist,
         });
 
         await artwork.save();
@@ -26,8 +26,8 @@ router.post('/', authenticate, upload.array('images', 10), async (req, res) => {
 });
 
 // Get All Artworks
-router.get('/', async (req, res) => {
-    const artworks = await Artwork.find().populate('artist', 'name');
+router.get('/fetch', async (req, res) => {
+    const artworks = await Artwork.find().populate('artist', 'title');
     res.json(artworks);
 });
 
